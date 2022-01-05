@@ -34,14 +34,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
     about = models.TextField(verbose_name='о себе', blank=True, null=True)
     gender = models.CharField(verbose_name='пол', choices=GENDER_CHOICES, blank=True, max_length=1)
+    langs = models.CharField(verbose_name='язык', blank=True, null=True, max_length=10)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            try:
-                UserProfile.objects.create(user=instance)
-            except Exception as f:
-                pass
+            UserProfile.objects.create(user=instance)
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, created, **kwargs):
