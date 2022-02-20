@@ -1,0 +1,4 @@
+http://194.58.11.64/
+http://194.58.11.64/products/
+http://194.58.11.64/users/profile/
+http://194.58.11.64/products/detail/1/
