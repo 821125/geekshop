@@ -33,6 +33,7 @@ def get_link_category():
     else:
         return ProductCategory.objects.all()
 
+
 def get_product():
     if settings.LOW_CACHE:
         key = 'link_product'
@@ -43,6 +44,7 @@ def get_product():
         return link_product
     else:
         return Product.objects.all().select_related('category')
+
 
 def get_product_one(pk):
     if settings.LOW_CACHE:
@@ -55,8 +57,9 @@ def get_product_one(pk):
     else:
         return Product.objects.get(id=pk)
 
+
 # @cache_page(3600)
-# @never_cache
+@never_cache
 def products(request, id_category=None, page=1):
     context = {
         'title': 'Geekshop | Каталог',
@@ -66,7 +69,7 @@ def products(request, id_category=None, page=1):
         products = Product.objects.filter(category_id=id_category).select_related('category')
     else:
         products = Product.objects.all().select_related()
-        # products = Product.objects.all().prefetch_related()  # for many to many
+        # products = Product.objects.all().prefetch_related()
     # products = get_product()
     paginator = Paginator(products, per_page=3)
 
@@ -84,9 +87,6 @@ def products(request, id_category=None, page=1):
 
 
 class ProductDetail(DetailView):
-    """
-    Контроллер вывода информации о продукте
-    """
     model = Product
     template_name = 'mainapp/detail.html'
 
